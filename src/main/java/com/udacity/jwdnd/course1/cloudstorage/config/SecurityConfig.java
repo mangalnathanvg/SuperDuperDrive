@@ -13,7 +13,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private AuthenticationService authenticationService;
 
-    private SecurityConfig(AuthenticationService authenticationService)
+    public SecurityConfig(AuthenticationService authenticationService)
     {
         this.authenticationService = authenticationService;
     }
