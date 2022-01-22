@@ -41,20 +41,21 @@
                             </div>
                         </form>
                         <div class="table-responsive">
-                            <table class="table table-striped" id="fileTable">
-                                <thead>
+                            <table  class="table table-striped" id="fileTable">
+                                <thead th:unless="${userfiles.isEmpty()}">
                                     <tr>
                                         <th style="width: 20%" scope="col"></th>
                                         <th style="width: 80%" scope="col">File Name</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
+                                <h4 th:if="${userfiles.isEmpty()}">No files found for this user!</h4>
+                                <tr th:unless="${userfiles.isEmpty()}" th:each="file: ${userfiles}">
                                     <td>
-                                        <a target="_blank" class="btn btn-success">View</a>
-                                        <a  class="btn btn-danger">Delete</a>
+                                        <a  th:href="@{'/home/file-download/' + ${file.getFileName()}}" target="_blank" class="btn btn-success">View</a>
+                                        <a  th:href="@{'/home/file-delete/' + ${file.getFileId()}}" class="btn btn-danger">Delete</a>
                                     </td>
-                                    <th scope="row">ExampleFile.txt</th>
+                                    <th scope="row" th:text="${file.getFileName()}">ExampleFile.txt</th>
                                 </tr>
                                 </tbody>
                             </table>
