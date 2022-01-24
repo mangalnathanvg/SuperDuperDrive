@@ -10,18 +10,22 @@
     </head>
     <body class="p-3 mb-2 bg-light text-black">
         <div class="container justify-content-center w-50 p-3" style="margin-top: 5em;">
-            <div class="alert alert-success fill-parent">
+            <div th:if="${uploadSuccess}" class="alert alert-success fill-parent">
                 <h1 class="display-5" id="success">Success</h1>
-                <span>Your changes were successfully saved. Click <a>here</a> to continue.</span>
+                <span>Upload Successful. Click <a th:href="@{/home}">here</a> to return to homepage.</span>
             </div>
-            <div class="alert alert-danger fill-parent">
-                <h1 class="display-5">Error</h1>
-                <span>Your changes were not saved. Click <a>here</a> to continue.</span>
+            <div th:if="${deleteSuccess}" class="alert alert-success fill-parent">
+                <h1 class="display-5" id="success">Success</h1>
+                <span>File Deleted Successfully. Click <a th:href="@{/home}">here</a> to return to homepage.</span>
             </div>
-            <div class="alert alert-danger fill-parent">
+            <div th:if="${sameNameExists}" class="alert alert-danger fill-parent">
                 <h1 class="display-5">Error</h1>
-                <span>Example Error Message</span>
-                <span>Click <a>here</a> to continue.</span>
+                <span>File with same name already uploaded by this user. Click <a th:href="@{/home}">here</a> to return to homepage.</span>
+            </div>
+            <div th:if="${uploadFailure}" class="alert alert-danger fill-parent">
+                <h1 class="display-5">Error</h1>
+                <span>Upload failed successfully</span>
+                <span>Click <a th:href="@{/home}">here</a> to return to homepage.</span>
             </div>
         </div>
     </body>
