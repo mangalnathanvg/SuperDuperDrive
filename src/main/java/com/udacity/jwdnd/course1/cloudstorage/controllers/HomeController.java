@@ -1,6 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.controllers;
 
 import com.udacity.jwdnd.course1.cloudstorage.models.File;
+import com.udacity.jwdnd.course1.cloudstorage.models.NoteForm;
 import com.udacity.jwdnd.course1.cloudstorage.models.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
@@ -28,7 +29,7 @@ public class HomeController {
     }
 
     @GetMapping
-    public String getHomePage(Authentication authentication, Model model)
+    public String getHomePage(@ModelAttribute("newNote") NoteForm newNote, Authentication authentication, Model model)
     {
         String username = authentication.getName();
         User user = userService.getUser(username);
@@ -93,7 +94,6 @@ public class HomeController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(user.getUsername() + " " + file.getFileName());
         fileService.uploadFile(user, file);
 
         model.addAttribute("uploadSuccess", true);
