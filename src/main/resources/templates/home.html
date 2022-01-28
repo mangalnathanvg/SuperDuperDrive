@@ -79,7 +79,7 @@
                                 <h4 th:if="${usernotes.isEmpty()}">No notes found for this user!</h4>
                                     <tr th:unless="${usernotes.isEmpty()}" th:each="note: ${usernotes}">
                                         <td>
-                                            <button th:onclick="javascript:showNoteModal([[${note}]])" type="button" class="btn btn-success">Edit</button>
+                                            <button th:onclick="javascript:showNoteModal([[${note.noteId}]])" type="button" class="btn btn-success">Edit</button>
                                             <a th:href="@{'/notes/note-delete/' + ${note.getNoteId()}}" class="btn btn-danger">Delete</a>
                                         </td>
                                         <th th:text="${note.getNoteTitle()}" scope="row">Example Note Title</th>
