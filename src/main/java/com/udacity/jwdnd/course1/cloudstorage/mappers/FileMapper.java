@@ -20,9 +20,9 @@ public interface FileMapper {
     @Select("SELECT * FROM FILES WHERE userId = #{userid}")
     ArrayList<File> findAllUserFiles(int userid);
 
-    @Insert("INSERT INTO FILES (fileName, contentType, fileSize, fileData, userId) VALUES (#{file.fileName}, #{file.contentType}, #{file.fileSize}, #{file.fileData}, #{userId})")
-    @Options(useGeneratedKeys = true, keyProperty = "file.fileId")
-    int addUserFile(File file, int userId);
+    @Insert("INSERT INTO FILES (fileName, contentType, fileSize, fileData, userId) VALUES (#{fileName}, #{contentType}, #{fileSize}, #{fileData}, #{userId})")
+    @Options(useGeneratedKeys = true, keyProperty = "fileId")
+    int addUserFile(File file);
 
     @Delete("DELETE FROM FILES WHERE fileId = #{fileId}")
     int deleteFile(int fileId);

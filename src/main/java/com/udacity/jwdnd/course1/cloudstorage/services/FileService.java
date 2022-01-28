@@ -44,9 +44,9 @@ public class FileService {
         return fileMapper.findFile(username, userId);
     }
 
-    public void uploadFile(User user, File file)
+    public void uploadFile(File file)
     {
-        fileMapper.addUserFile(file, user.getUserId());
+        fileMapper.addUserFile(file);
         ArrayList<File> temp = fileMapper.displayAll();
         for(int i=0; i<temp.size(); i++)
         {

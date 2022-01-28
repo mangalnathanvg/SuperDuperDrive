@@ -20,9 +20,12 @@ public interface NoteMapper {
     @Select("SELECT * FROM NOTES WHERE userId = #{userid}")
     ArrayList<Note> findAllUserNotes(int userid);
 
-    @Insert("INSERT INTO NOTES (noteTitle, noteDescription, userId) VALUES (#{title}, #{description}, #{userId})")
+    @Insert("INSERT INTO NOTES (noteTitle, noteDescription, userId) VALUES (#{noteTitle}, #{noteDescription}, #{userId})")
     @Options(useGeneratedKeys = true, keyProperty = "noteId")
     int addUserNote(Note note);
+
+    @Update("UPDATE NOTES SET noteTitle=#{noteTitle}, noteDescription=#{noteDescription} WHERE noteId=#{noteId}")
+    void updateUserNote(Note note);
 
     @Delete("DELETE FROM NOTES WHERE noteId = #{noteId}")
     int deleteNote(int noteId);

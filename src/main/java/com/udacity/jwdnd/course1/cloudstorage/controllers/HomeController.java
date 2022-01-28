@@ -1,11 +1,12 @@
 package com.udacity.jwdnd.course1.cloudstorage.controllers;
 
 import com.udacity.jwdnd.course1.cloudstorage.models.File;
+import com.udacity.jwdnd.course1.cloudstorage.models.Note;
 import com.udacity.jwdnd.course1.cloudstorage.models.NoteForm;
 import com.udacity.jwdnd.course1.cloudstorage.models.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
+import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -21,10 +22,12 @@ import java.util.List;
 @RequestMapping("/home")
 public class HomeController {
     private FileService fileService;
+    private NoteService noteService;
     private UserService userService;
-    public HomeController(FileService fileService, UserService userService)
+    public HomeController(FileService fileService, NoteService noteService, UserService userService)
     {
         this.fileService = fileService;
+        this.noteService = noteService;
         this.userService = userService;
     }
 
@@ -33,12 +36,14 @@ public class HomeController {
     {
         String username = authentication.getName();
         User user = userService.getUser(username);
-        List<File> result = fileService.getAllFiles(user.getUserId());
-        for(File file : result)
-        {
-            System.out.println(file.getFileName() + " : " + file.getFileId());
-        }
-        model.addAttribute("userfiles" , result);
+        List<File> userFiles = fileService.getAllFiles(user.getUserId());
+        List<Note> userNotes = noteService.getUserNotes(user.getUserId());
+//        for(File file : userFiles)
+//        {
+//            System.out.println(file.getFileName() + " : " + file.getFileId());
+//        }
+        model.addAttribute("userfiles" , userFiles);
+        model.addAttribute("usernotes", userNotes);
         return "home";
     }
 
@@ -94,7 +99,7 @@ public class HomeController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        fileService.uploadFile(user, file);
+        fileService.uploadFile(file);
 
         model.addAttribute("uploadSuccess", true);
         return "result";
