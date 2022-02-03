@@ -30,6 +30,22 @@
                 <h1 class="display-5" id="success">Success</h1>
                 <span>Note Deleted Successfully. Click <a th:href="@{/home}">here</a> to return to homepage.</span>
             </div>
+
+            <div th:if="${addCredentialSuccess}" class="alert alert-success fill-parent">
+                <h1 class="display-5" id="success">Success</h1>
+                <span>Credential Added Successfully. Click <a th:href="@{/home}">here</a> to return to homepage.</span>
+            </div>
+
+            <div th:if="${updateCredentialSuccess}" class="alert alert-success fill-parent">
+                <h1 class="display-5" id="success">Success</h1>
+                <span>Credential Updated Successfully. Click <a th:href="@{/home}">here</a> to return to homepage.</span>
+            </div>
+
+            <div th:if="${deleteCredentialSuccess}" class="alert alert-success fill-parent">
+                <h1 class="display-5" id="success">Success</h1>
+                <span>Credential Deleted Successfully. Click <a th:href="@{/home}">here</a> to return to homepage.</span>
+            </div>
+
             <div th:if="${sameNameExists}" class="alert alert-danger fill-parent">
                 <h1 class="display-5">Error</h1>
                 <span>File with same name already uploaded by this user. Click <a th:href="@{/home}">here</a> to return to homepage.</span>

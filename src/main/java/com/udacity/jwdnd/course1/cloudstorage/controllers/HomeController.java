@@ -1,12 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.controllers;
 
-import com.udacity.jwdnd.course1.cloudstorage.models.File;
-import com.udacity.jwdnd.course1.cloudstorage.models.Note;
-import com.udacity.jwdnd.course1.cloudstorage.models.NoteForm;
-import com.udacity.jwdnd.course1.cloudstorage.models.User;
-import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
-import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
-import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
+import com.udacity.jwdnd.course1.cloudstorage.models.*;
+import com.udacity.jwdnd.course1.cloudstorage.services.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -24,26 +19,31 @@ public class HomeController {
     private FileService fileService;
     private NoteService noteService;
     private UserService userService;
-    public HomeController(FileService fileService, NoteService noteService, UserService userService)
+    private CredentialService credentialService;
+    private EncryptionService encryptionService;
+
+    public HomeController(FileService fileService, NoteService noteService, UserService userService, CredentialService credentialService, EncryptionService encryptionService)
     {
         this.fileService = fileService;
         this.noteService = noteService;
         this.userService = userService;
+        this.credentialService = credentialService;
+        this.encryptionService = encryptionService;
     }
 
     @GetMapping
-    public String getHomePage(@ModelAttribute("newNote") NoteForm newNote, Authentication authentication, Model model)
+    public String getHomePage(@ModelAttribute("newNote") NoteForm newNote,Authentication authentication, Model model)
     {
         String username = authentication.getName();
         User user = userService.getUser(username);
         List<File> userFiles = fileService.getAllFiles(user.getUserId());
         List<Note> userNotes = noteService.getUserNotes(user.getUserId());
-//        for(File file : userFiles)
-//        {
-//            System.out.println(file.getFileName() + " : " + file.getFileId());
-//        }
+        List<Credential> userCredentials = credentialService.getUserCredentials(user.getUserId());
+
         model.addAttribute("userfiles" , userFiles);
         model.addAttribute("usernotes", userNotes);
+        model.addAttribute("usercredentials", userCredentials);
+        model.addAttribute("encryptionService", encryptionService);
         return "home";
     }
 

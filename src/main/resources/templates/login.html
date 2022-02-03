@@ -15,6 +15,10 @@
                 <div th:if="${param.error}" class="alert alert-danger">
                     Invalid username or password
                 </div>
+                <div th:if="${signupSuccess}" class="alert alert-success fill-parent">
+                    <h4 class="display-5" id="success">Success</h4>
+                    <span>User sign up successful. Login with registered credentials</span>
+                </div>
                 <div th:if="${param.logout}" class="alert alert-dark">
                     You have been logged out
                 </div>
