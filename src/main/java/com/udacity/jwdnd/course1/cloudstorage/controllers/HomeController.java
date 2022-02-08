@@ -44,6 +44,7 @@ public class HomeController {
         model.addAttribute("usernotes", userNotes);
         model.addAttribute("usercredentials", userCredentials);
         model.addAttribute("encryptionService", encryptionService);
+
         return "home";
     }
 

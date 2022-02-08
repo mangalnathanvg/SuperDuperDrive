@@ -67,13 +67,13 @@ public class CredentialController {
             credentialService.addUserCredential(credential);
             model.addAttribute("addCredentialSuccess", true);
         }
-        return "result";
+        return "redirect:/home";
     }
 
     @GetMapping("/credential-delete/{credential_id}")
     public String deleteNote(@PathVariable("credential_id") int credentialId, Model model)
     {
         model.addAttribute("deleteCredentialSuccess", credentialService.deleteCredential(credentialId));
-        return "result";
+        return "redirect:/home";
     }
 }
