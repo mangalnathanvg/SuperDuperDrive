@@ -11,49 +11,49 @@
     <body class="p-3 mb-2 bg-light text-black">
         <div class="container justify-content-center w-50 p-3" style="margin-top: 5em;">
             <div th:if="${uploadSuccess}" class="alert alert-success fill-parent">
-                <h1 class="display-5" id="success">Success</h1>
-                <span>Upload Successful. Click <a th:href="@{/home}">here</a> to return to homepage.</span>
+                <h1 class="display-5" id="success-file-upload">Success</h1>
+                <span>Upload Successful. Click <a id="backtohome" th:href="@{/home}">here</a> to return to homepage.</span>
             </div>
             <div th:if="${deleteSuccess}" class="alert alert-success fill-parent">
-                <h1 class="display-5" id="success">Success</h1>
-                <span>File Deleted Successfully. Click <a th:href="@{/home}">here</a> to return to homepage.</span>
+                <h1 class="display-5" id="success-file-delete">Success</h1>
+                <span>File Deleted Successfully. Click <a id="backtohome" th:href="@{/home}">here</a> to return to homepage.</span>
             </div>
             <div th:if="${addNoteSuccess}" class="alert alert-success fill-parent">
-                <h1 class="display-5" id="success">Success</h1>
-                <span>Note Added Successfully. Click <a th:href="@{/home}">here</a> to return to homepage.</span>
+                <h1 class="display-5" id="success-add-note">Note added successfully</h1>
+                <span>Click <a id="backtohome" th:href="@{/home}">here</a> to return to homepage.</span>
             </div>
             <div th:if="${updateNoteSuccess}" class="alert alert-success fill-parent">
-                <h1 class="display-5" id="success">Success</h1>
-                <span>Note Updated Successfully. Click <a th:href="@{/home}">here</a> to return to homepage.</span>
+                <h1 class="display-5" id="success-update-note">Note updated successfully</h1>
+                <span>Click <a id="backtohome" th:href="@{/home}">here</a> to return to homepage.</span>
             </div>
             <div th:if="${deleteNoteSuccess}" class="alert alert-success fill-parent">
-                <h1 class="display-5" id="success">Success</h1>
-                <span>Note Deleted Successfully. Click <a th:href="@{/home}">here</a> to return to homepage.</span>
+                <h1 class="display-5" id="success-delete-note">Note deleted successfully</h1>
+                <span>Click <a id="backtohome" th:href="@{/home}">here</a> to return to homepage.</span>
             </div>
 
             <div th:if="${addCredentialSuccess}" class="alert alert-success fill-parent">
                 <h1 class="display-5" id="success">Success</h1>
-                <span>Credential Added Successfully. Click <a th:href="@{/home}">here</a> to return to homepage.</span>
+                <span>Credential Added Successfully. Click <a id="backtohome" th:href="@{/home}">here</a> to return to homepage.</span>
             </div>
 
             <div th:if="${updateCredentialSuccess}" class="alert alert-success fill-parent">
                 <h1 class="display-5" id="success">Success</h1>
-                <span>Credential Updated Successfully. Click <a th:href="@{/home}">here</a> to return to homepage.</span>
+                <span>Credential Updated Successfully. Click <a id="backtohome" th:href="@{/home}">here</a> to return to homepage.</span>
             </div>
 
             <div th:if="${deleteCredentialSuccess}" class="alert alert-success fill-parent">
                 <h1 class="display-5" id="success">Success</h1>
-                <span>Credential Deleted Successfully. Click <a th:href="@{/home}">here</a> to return to homepage.</span>
+                <span>Credential Deleted Successfully. Click <a id="backtohome" th:href="@{/home}">here</a> to return to homepage.</span>
             </div>
 
             <div th:if="${sameNameExists}" class="alert alert-danger fill-parent">
                 <h1 class="display-5">Error</h1>
-                <span>File with same name already uploaded by this user. Click <a th:href="@{/home}">here</a> to return to homepage.</span>
+                <span>File with same name already uploaded by this user. Click <a id="backtohome" th:href="@{/home}">here</a> to return to homepage.</span>
             </div>
             <div th:if="${uploadFailure}" class="alert alert-danger fill-parent">
                 <h1 class="display-5">Error</h1>
                 <span>Upload failed successfully</span>
-                <span>Click <a th:href="@{/home}">here</a> to return to homepage.</span>
+                <span>Click <a id="backtohome" th:href="@{/home}">here</a> to return to homepage.</span>
             </div>
         </div>
     </body>

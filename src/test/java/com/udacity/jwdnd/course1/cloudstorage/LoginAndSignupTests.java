@@ -3,7 +3,6 @@ package com.udacity.jwdnd.course1.cloudstorage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -14,7 +13,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 
 import java.io.File;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class CloudStorageApplicationTests {
+class LoginAndSignupTests {
 
 	@LocalServerPort
 	private int port;
@@ -36,19 +35,6 @@ class CloudStorageApplicationTests {
 		if (this.driver != null) {
 			driver.quit();
 		}
-	}
-
-	@Test
-	public void getLoginPage() {
-		driver.get("http://localhost:" + this.port + "/login");
-		Assertions.assertEquals("Login", driver.getTitle());
-	}
-
-	@Test
-	public void getSignupPage()
-	{
-		driver.get("http://localhost:" + this.port +"/signup");
-		Assertions.assertEquals("Sign Up", driver.getTitle());
 	}
 
 	/**
@@ -102,7 +88,7 @@ class CloudStorageApplicationTests {
 	 * PLEASE DO NOT DELETE THIS method.
 	 * Helper method for Udacity-supplied sanity checks.
 	 **/
-	private void doLogIn(String userName, String password)
+	private WebDriverWait logInWorkFlow(String userName, String password)
 	{
 		// Log in to our dummy account.
 		driver.get("http://localhost:" + this.port + "/login");
@@ -121,6 +107,13 @@ class CloudStorageApplicationTests {
 		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("login-button")));
 		WebElement loginButton = driver.findElement(By.id("login-button"));
 		loginButton.click();
+
+		return webDriverWait;
+	}
+	private void doLogIn(String userName, String password)
+	{
+		// Log in to our dummy account.
+		WebDriverWait webDriverWait = logInWorkFlow(userName, password);
 
 		webDriverWait.until(ExpectedConditions.titleContains("Home"));
 
@@ -207,6 +200,31 @@ class CloudStorageApplicationTests {
 
 	}
 
+	@Test
+	public void getLoginPage() {
+		driver.get("http://localhost:" + this.port + "/login");
+		Assertions.assertEquals("Login", driver.getTitle());
+	}
 
+	@Test
+	public void getSignupPage()
+	{
+		driver.get("http://localhost:" + this.port +"/signup");
+		Assertions.assertEquals("Sign Up", driver.getTitle());
+	}
 
+	@Test
+	public void InaccessibleWithoutAuth()
+	{
+		driver.get("http://localhost:" + this.port + "/home");
+		Assertions.assertEquals("Login", driver.getTitle());
+	}
+
+	@Test
+	public void InvalidLogin()
+	{
+		WebDriverWait webDriverWait = logInWorkFlow("hello", "stranger");
+		webDriverWait.until(ExpectedConditions.titleContains("Login"));
+		Assertions.assertTrue(driver.findElement(By.id("invalid-login")).getText().contains("Invalid username or password"));
+	}
 }

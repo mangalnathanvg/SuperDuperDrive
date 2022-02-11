@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab">
-                        <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showNoteModal()">
+                        <button id="new-note-btn" style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showNoteModal()">
                             + Add a New Note
                         </button>
 
@@ -76,11 +76,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <h4 th:if="${usernotes.isEmpty()}">No notes found for this user!</h4>
+                                <h4 id="no-notes" th:if="${usernotes.isEmpty()}">No notes found for this user!</h4>
                                     <tr th:unless="${usernotes.isEmpty()}" th:each="note: ${usernotes}">
                                         <td>
-                                            <button th:onclick="javascript:showNoteModal([[${note.noteId}]], [[${note.noteTitle}]], [[${note.noteDescription}]])" type="button" class="btn btn-success">Edit</button>
-                                            <a th:href="@{'/notes/note-delete/' + ${note.getNoteId()}}" class="btn btn-danger">Delete</a>
+                                            <button id="note-edit" th:onclick="javascript:showNoteModal([[${note.noteId}]], [[${note.noteTitle}]], [[${note.noteDescription}]])" type="button" class="btn btn-success">Edit</button>
+                                            <a id="note-delete" th:href="@{'/notes/note-delete/' + ${note.getNoteId()}}" class="btn btn-danger">Delete</a>
                                         </td>
                                         <th th:text="${note.getNoteTitle()}" scope="row">Example Note Title</th>
                                         <td th:text="${note.getNoteDescription()}">Example Note Description </td>
@@ -99,7 +99,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form th:object="${newNote}" th:action="@{/notes/addnote}" action="#" method="POST">
+                                        <form id="note-form" th:object="${newNote}" th:action="@{/notes/addnote}" action="#" method="POST">
                                             <input th:field="*{noteId}" type="hidden" name="noteId" id="note-id">
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">Title</label>
