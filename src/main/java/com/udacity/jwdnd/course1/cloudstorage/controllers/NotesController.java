@@ -45,15 +45,13 @@ public class NotesController {
             noteService.addNote(note);
             model.addAttribute("addNoteSuccess", true);
         }
-        model.addAttribute("noteSelected", true);
-        return "redirect:/home";
+        return "result";
     }
 
     @GetMapping("/note-delete/{note_id}")
     public String deleteNote(@PathVariable("note_id") int noteId, Model model)
     {
         model.addAttribute("deleteNoteSuccess", noteService.deleteNote(noteId));
-        model.addAttribute("noteSelected", true);
-        return "redirect:/home";
+        return "result";
     }
 }
