@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 public class FileService {
-    private FileMapper fileMapper;
+    private final FileMapper fileMapper;
 
     public FileService(FileMapper fileMapper)
     {

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/notes")
 public class NotesController {
-    private UserService userService;
-    private NoteService noteService;
+    private final UserService userService;
+    private final NoteService noteService;
 
     public NotesController(UserService userService, NoteService noteService) {
         this.userService = userService;

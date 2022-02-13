@@ -16,11 +16,11 @@ import java.util.List;
 @Controller
 @RequestMapping("/home")
 public class HomeController {
-    private FileService fileService;
-    private NoteService noteService;
-    private UserService userService;
-    private CredentialService credentialService;
-    private EncryptionService encryptionService;
+    private final FileService fileService;
+    private final NoteService noteService;
+    private final UserService userService;
+    private final CredentialService credentialService;
+    private final EncryptionService encryptionService;
 
     public HomeController(FileService fileService, NoteService noteService, UserService userService, CredentialService credentialService, EncryptionService encryptionService)
     {

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Service
 public class CredentialService {
-    private CredentialMapper credentialMapper;
+    private final CredentialMapper credentialMapper;
 
 
     public CredentialService(CredentialMapper credentialMapper) {
