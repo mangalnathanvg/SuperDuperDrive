@@ -32,18 +32,18 @@
             </div>
 
             <div th:if="${addCredentialSuccess}" class="alert alert-success fill-parent">
-                <h1 class="display-5" id="success">Success</h1>
-                <span>Credential Added Successfully. Click <a id="backtohome" th:href="@{/home}">here</a> to return to homepage.</span>
+                <h1 id="success-add-credential" class="display-5">Credential added successfully</h1>
+                <span>Click <a id="backtohome" th:href="@{/home}">here</a> to return to homepage.</span>
             </div>
 
             <div th:if="${updateCredentialSuccess}" class="alert alert-success fill-parent">
-                <h1 class="display-5" id="success">Success</h1>
-                <span>Credential Updated Successfully. Click <a id="backtohome" th:href="@{/home}">here</a> to return to homepage.</span>
+                <h1 class="display-5" id="success-update-credential">Credential updated successfully</h1>
+                <span>Click <a id="backtohome" th:href="@{/home}">here</a> to return to homepage.</span>
             </div>
 
             <div th:if="${deleteCredentialSuccess}" class="alert alert-success fill-parent">
-                <h1 class="display-5" id="success">Success</h1>
-                <span>Credential Deleted Successfully. Click <a id="backtohome" th:href="@{/home}">here</a> to return to homepage.</span>
+                <h1 class="display-5" id="success-delete-credential">Credential deleted successfully</h1>
+                <span>Click <a id="backtohome" th:href="@{/home}">here</a> to return to homepage.</span>
             </div>
 
             <div th:if="${sameNameExists}" class="alert alert-danger fill-parent">

@@ -16,9 +16,9 @@ import java.io.File;
 class LoginAndSignupTests {
 
 	@LocalServerPort
-	private int port;
+	int port;
 
-	private WebDriver driver;
+	WebDriver driver;
 
 	@BeforeAll
 	static void beforeAll() {
@@ -41,7 +41,7 @@ class LoginAndSignupTests {
 	 * PLEASE DO NOT DELETE THIS method.
 	 * Helper method for Udacity-supplied sanity checks.
 	 **/
-	private void doMockSignUp(String firstName, String lastName, String userName, String password){
+	void doMockSignUp(String firstName, String lastName, String userName, String password){
 		// Create a dummy account for logging in later.
 
 		// Visit the sign-up page.
@@ -110,7 +110,7 @@ class LoginAndSignupTests {
 
 		return webDriverWait;
 	}
-	private void doLogIn(String userName, String password)
+	void doLogIn(String userName, String password)
 	{
 		// Log in to our dummy account.
 		WebDriverWait webDriverWait = logInWorkFlow(userName, password);

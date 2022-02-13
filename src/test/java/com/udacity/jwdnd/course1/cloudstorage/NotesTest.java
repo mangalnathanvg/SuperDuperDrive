@@ -13,110 +13,17 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.io.File;
+import java.util.List;
 import java.util.function.BooleanSupplier;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-class NotesTests{
+class NotesTests extends LoginAndSignupTests {
 
-    @LocalServerPort
-    private int port;
-
-    private WebDriver driver;
-
-    @BeforeAll
-    static void beforeAll() {
-        WebDriverManager.chromedriver().setup();
-    }
-
-    @BeforeEach
-    public void beforeEach() {
-        this.driver = new ChromeDriver();
-    }
-
-    @AfterEach
-    public void afterEach() {
-        if (this.driver != null) {
-            driver.quit();
-        }
-    }
-
-    /**
-     * PLEASE DO NOT DELETE THIS method.
-     * Helper method for Udacity-supplied sanity checks.
-     **/
-    private void doMockSignUp(String firstName, String lastName, String userName, String password){
-        // Create a dummy account for logging in later.
-
-        // Visit the sign-up page.
-        WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
-        driver.get("http://localhost:" + this.port + "/signup");
-        webDriverWait.until(ExpectedConditions.titleContains("Sign Up"));
-
-        // Fill out credentials
-        webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("inputFirstName")));
-        WebElement inputFirstName = driver.findElement(By.id("inputFirstName"));
-        inputFirstName.click();
-        inputFirstName.sendKeys(firstName);
-
-        webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("inputLastName")));
-        WebElement inputLastName = driver.findElement(By.id("inputLastName"));
-        inputLastName.click();
-        inputLastName.sendKeys(lastName);
-
-        webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("inputUsername")));
-        WebElement inputUsername = driver.findElement(By.id("inputUsername"));
-        inputUsername.click();
-        inputUsername.sendKeys(userName);
-
-        webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("inputPassword")));
-        WebElement inputPassword = driver.findElement(By.id("inputPassword"));
-        inputPassword.click();
-        inputPassword.sendKeys(password);
-
-        // Attempt to sign up.
-        webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("buttonSignUp")));
-        WebElement buttonSignUp = driver.findElement(By.id("buttonSignUp"));
-        buttonSignUp.click();
-
-		/* Check that the sign up was successful.
-		// You may have to modify the element "success-msg" and the sign-up
-		// success message below depending on the rest of your code.
-		*/
-        Assertions.assertTrue(driver.findElement(By.id("success-signup")).getText().contains("User sign up successful. Login with registered credentials"));
-    }
+    private final String defaultTitle = "My Dream";
+    private final String defaultDescription = "Pirate King";
 
 
-
-    /**
-     * PLEASE DO NOT DELETE THIS method.
-     * Helper method for Udacity-supplied sanity checks.
-     **/
-    private void doLogIn(String userName, String password)
-    {
-        // Log in to our dummy account.
-        driver.get("http://localhost:" + this.port + "/login");
-        WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
-
-        webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("inputUsername")));
-        WebElement loginUserName = driver.findElement(By.id("inputUsername"));
-        loginUserName.click();
-        loginUserName.sendKeys(userName);
-
-        webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("inputPassword")));
-        WebElement loginPassword = driver.findElement(By.id("inputPassword"));
-        loginPassword.click();
-        loginPassword.sendKeys(password);
-
-        webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("login-button")));
-        WebElement loginButton = driver.findElement(By.id("login-button"));
-        loginButton.click();
-
-        webDriverWait.until(ExpectedConditions.titleContains("Home"));
-
-    }
-
-    private void createNote() {
+    private void createDefaultNote() {
         WebElement noteTab = driver.findElement(By.id("nav-notes-tab"));
         noteTab.click();
 
@@ -129,11 +36,11 @@ class NotesTests{
 
         WebElement noteTitle = driver.findElement(By.id("note-title"));
         webDriverWait.until(ExpectedConditions.visibilityOf(noteTitle));
-        noteTitle.sendKeys("My Dream");
+        noteTitle.sendKeys(getDefaultTitle());
 
         WebElement noteDescription = driver.findElement(By.id("note-description"));
         webDriverWait.until(ExpectedConditions.visibilityOf(noteDescription));
-        noteDescription.sendKeys("Pirate King");
+        noteDescription.sendKeys(getDefaultDescription());
 
         WebElement noteForm = driver.findElement(By.id("note-form"));
         noteForm.submit();
@@ -149,14 +56,50 @@ class NotesTests{
         notesTab.click();
     }
 
+    private void checkIfNoteDisplayed(String title, String description)
+    {
+        WebElement noteTable = driver.findElement(By.id("userTable"));
+        List<WebElement> notes = noteTable.findElements(By.tagName("th"));
+
+        boolean foundTitle = false;
+        for(int i=0; i < notes.size(); i++)
+        {
+            WebElement element = notes.get(i);
+            if(element.getAttribute("innerHTML").equals(title))
+            {
+                foundTitle = true;
+                break;
+            }
+        }
+
+        Assertions.assertTrue(foundTitle);
+
+        notes.clear();
+        notes = noteTable.findElements(By.tagName("td"));
+
+        boolean foundDescription = false;
+        for(int i=0; i<notes.size(); i++)
+        {
+            WebElement element = notes.get(i);
+            if(element.getAttribute("innerHTML").equals(description)) {
+                foundDescription = true;
+                break;
+            }
+        }
+
+        Assertions.assertTrue(foundDescription);
+    }
+
     @Test
     public void displayEnteredNote()
     {
         doMockSignUp("Monkey D.", "Luffy", "Mugiwara", "Kaizoku");
         doLogIn("Mugiwara", "Kaizoku");
-        createNote();
-        Assertions.assertNotNull(driver.findElement(By.xpath("//th[text()='My Dream']")));
-        Assertions.assertNotNull(driver.findElement(By.xpath("//td[text()='Pirate King']")));
+        createDefaultNote();
+
+        WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
+
+        checkIfNoteDisplayed(getDefaultTitle(), getDefaultDescription());
     }
 
     @Test
@@ -164,10 +107,12 @@ class NotesTests{
     {
         doMockSignUp("Marshall", "Teach", "Kurohige", "Kaizoku");
         doLogIn("Kurohige", "Kaizoku");
-        createNote();
+        createDefaultNote();
         WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
         webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("new-note-btn")));
 
+        String newTitle = "My New Dream";
+        String newDescription = "Eat all the meat";
 
         WebElement editButton = driver.findElement(By.id("note-edit"));
         editButton.click();
@@ -175,12 +120,12 @@ class NotesTests{
         WebElement noteTitle = driver.findElement(By.id("note-title"));
         webDriverWait.until(ExpectedConditions.visibilityOf(noteTitle));
         noteTitle.clear();
-        noteTitle.sendKeys("My New Dream");
+        noteTitle.sendKeys(newTitle);
 
         WebElement noteDescription = driver.findElement(By.id("note-description"));
         webDriverWait.until(ExpectedConditions.visibilityOf(noteDescription));
         noteDescription.clear();
-        noteDescription.sendKeys("Eat all the meat");
+        noteDescription.sendKeys(newDescription);
 
         WebElement noteForm = driver.findElement(By.id("note-form"));
         noteForm.submit();
@@ -195,8 +140,7 @@ class NotesTests{
         WebElement notesTab = driver.findElement(By.id("nav-notes-tab"));
         notesTab.click();
 
-        Assertions.assertNotNull(driver.findElement(By.xpath("//th[text()='My New Dream']")));
-        Assertions.assertNotNull(driver.findElement(By.xpath("//td[text()='Eat all the meat']")));
+        checkIfNoteDisplayed(newTitle, newDescription);
     }
 
     @Test
@@ -204,7 +148,7 @@ class NotesTests{
     {
         doMockSignUp("Beast King", "Kaido", "Hyakuju", "Kaizoku");
         doLogIn("Hyakuju", "Kaizoku");
-        createNote();
+        createDefaultNote();
 
         WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
         webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("new-note-btn")));
@@ -226,4 +170,11 @@ class NotesTests{
 
     }
 
+    public String getDefaultTitle() {
+        return defaultTitle;
+    }
+
+    public String getDefaultDescription() {
+        return defaultDescription;
+    }
 }
