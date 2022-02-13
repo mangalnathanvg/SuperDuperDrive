@@ -1,0 +1,21 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Tests for SuperDuperDrive" type="JUnit" factoryName="JUnit">
+    <module name="cloudstorage" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="com.udacity.jwdnd.course1.cloudstorage.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <option name="PACKAGE_NAME" value="com.udacity.jwdnd.course1.cloudstorage" />
+    <option name="MAIN_CLASS_NAME" value="" />
+    <option name="METHOD_NAME" value="" />
+    <option name="TEST_OBJECT" value="package" />
+    <fork_mode value="class" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
+<!--Edited Run configuration for tests to use FORK MODE: CLASS to ensure database is empty for each test class.
+Needed to reduce count of redundant user credentials. Subsequent tests will fail if FORK MODE is not set to CLASS-->
