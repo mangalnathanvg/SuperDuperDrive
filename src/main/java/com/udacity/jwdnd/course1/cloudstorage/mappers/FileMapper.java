@@ -22,7 +22,7 @@ public interface FileMapper {
 
     @Insert("INSERT INTO FILES (fileName, contentType, fileSize, fileData, userId) VALUES (#{fileName}, #{contentType}, #{fileSize}, #{fileData}, #{userId})")
     @Options(useGeneratedKeys = true, keyProperty = "fileId")
-    int addUserFile(File file);
+    void addUserFile(File file);
 
     @Delete("DELETE FROM FILES WHERE fileId = #{fileId}")
     int deleteFile(int fileId);

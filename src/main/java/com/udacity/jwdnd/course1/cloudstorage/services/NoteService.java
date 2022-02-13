@@ -2,10 +2,8 @@ package com.udacity.jwdnd.course1.cloudstorage.services;
 
 import com.udacity.jwdnd.course1.cloudstorage.mappers.NoteMapper;
 import com.udacity.jwdnd.course1.cloudstorage.models.Note;
-import com.udacity.jwdnd.course1.cloudstorage.models.User;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,8 +16,7 @@ public class NoteService {
 
     public List<Note> getUserNotes(Integer UserId)
     {
-        List<Note> result = noteMapper.findAllUserNotes(UserId);
-        return result;
+        return noteMapper.findAllUserNotes(UserId);
     }
 
     public void updateNote(Note note)

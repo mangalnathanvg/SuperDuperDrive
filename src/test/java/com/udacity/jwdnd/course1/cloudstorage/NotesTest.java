@@ -1,26 +1,17 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
+
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.annotation.DirtiesContext;
-
-import java.io.File;
 import java.util.List;
-import java.util.function.BooleanSupplier;
+
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class NotesTests extends LoginAndSignupTests {
-
-    private final String defaultTitle = "My Dream";
-    private final String defaultDescription = "Pirate King";
 
 
     private void createDefaultNote() {
@@ -62,11 +53,8 @@ class NotesTests extends LoginAndSignupTests {
         List<WebElement> notes = noteTable.findElements(By.tagName("th"));
 
         boolean foundTitle = false;
-        for(int i=0; i < notes.size(); i++)
-        {
-            WebElement element = notes.get(i);
-            if(element.getAttribute("innerHTML").equals(title))
-            {
+        for (WebElement element : notes) {
+            if (element.getAttribute("innerHTML").equals(title)) {
                 foundTitle = true;
                 break;
             }
@@ -78,10 +66,8 @@ class NotesTests extends LoginAndSignupTests {
         notes = noteTable.findElements(By.tagName("td"));
 
         boolean foundDescription = false;
-        for(int i=0; i<notes.size(); i++)
-        {
-            WebElement element = notes.get(i);
-            if(element.getAttribute("innerHTML").equals(description)) {
+        for (WebElement element : notes) {
+            if (element.getAttribute("innerHTML").equals(description)) {
                 foundDescription = true;
                 break;
             }
@@ -96,8 +82,6 @@ class NotesTests extends LoginAndSignupTests {
         doMockSignUp("Monkey D.", "Luffy", "Mugiwara", "Kaizoku");
         doLogIn("Mugiwara", "Kaizoku");
         createDefaultNote();
-
-        WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
 
         checkIfNoteDisplayed(getDefaultTitle(), getDefaultDescription());
     }
@@ -166,15 +150,17 @@ class NotesTests extends LoginAndSignupTests {
         WebElement notesTab = driver.findElement(By.id("nav-notes-tab"));
         notesTab.click();
 
-        Assertions.assertNotNull(driver.findElement(By.id("no-notes")).getText().contains("No notes found for this user!"));
+        webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("new-note-btn")));
+
+        Assertions.assertTrue(driver.findElement(By.id("no-notes")).getText().contains("No notes found for this user!"));
 
     }
 
     public String getDefaultTitle() {
-        return defaultTitle;
+        return "My Dream";
     }
 
     public String getDefaultDescription() {
-        return defaultDescription;
+        return "Pirate King";
     }
 }

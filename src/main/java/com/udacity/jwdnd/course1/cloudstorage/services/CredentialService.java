@@ -17,8 +17,7 @@ public class CredentialService {
 
     public List<Credential> getUserCredentials(Integer userId)
     {
-        List<Credential> result = credentialMapper.findAllUserCredentials(userId);
-        return result;
+        return credentialMapper.findAllUserCredentials(userId);
     }
 
     public void updateCredential(Credential credential)

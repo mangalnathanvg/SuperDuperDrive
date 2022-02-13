@@ -1,25 +1,19 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
+
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+
 
 import java.util.List;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CredentialTests extends LoginAndSignupTests {
-
-   private final String defaultURL = "https://onepiece.com";
-   private final String defaultUsername = "PirateKing";
-   private final String defaultPassword = "TheOnePiece@2025";
 
     private void createDefaultCredential() {
         WebElement credentialTab = driver.findElement(By.id("nav-credentials-tab"));
@@ -65,11 +59,8 @@ public class CredentialTests extends LoginAndSignupTests {
         List<WebElement> credentials = credentialTable.findElements(By.tagName("th"));
 
         boolean foundURL = false;
-        for(int i=0; i<credentials.size(); i++)
-        {
-            WebElement element = credentials.get(i);
-            if(element.getAttribute("innerHTML").equals(url))
-            {
+        for (WebElement element : credentials) {
+            if (element.getAttribute("innerHTML").equals(url)) {
                 foundURL = true;
                 break;
             }
@@ -81,21 +72,16 @@ public class CredentialTests extends LoginAndSignupTests {
         credentials = credentialTable.findElements(By.tagName("td"));
 
         boolean foundUsername = false, foundPassword = false;
-        for(int i=0; i<credentials.size(); i++)
-        {
-            WebElement element = credentials.get(i);
-            if(!foundUsername && element.getAttribute("innerHTML").equals(username))
-            {
+        for (WebElement element : credentials) {
+            if (!foundUsername && element.getAttribute("innerHTML").equals(username)) {
                 foundUsername = true;
             }
 
-            if(!foundPassword && element.getAttribute("innerHTML").equals(password))
-            {
+            if (!foundPassword && element.getAttribute("innerHTML").equals(password)) {
                 foundPassword = true;
             }
 
-            if(foundUsername && foundPassword)
-            {
+            if (foundUsername && foundPassword) {
                 break;
             }
         }
@@ -112,7 +98,7 @@ public class CredentialTests extends LoginAndSignupTests {
         WebElement credentialPassword = driver.findElement(By.id("credential-password"));
         webDriverWait.until(ExpectedConditions.visibilityOf(credentialPassword));
 
-        Assertions.assertTrue(credentialPassword.getAttribute("value").equals(password));
+        Assertions.assertEquals(credentialPassword.getAttribute("value"), password);
     }
 
     @Test
@@ -197,19 +183,21 @@ public class CredentialTests extends LoginAndSignupTests {
         WebElement credentialsTab = driver.findElement(By.id("nav-credentials-tab"));
         credentialsTab.click();
 
-        Assertions.assertNotNull(driver.findElement(By.id("no-credentials")).getText().contains("No credentials found for this user!"));
+        webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("new-credential-btn")));
+
+        Assertions.assertTrue(driver.findElement(By.id("no-credentials")).getText().contains("No credentials found for this user!"));
 
     }
 
     public String getDefaultURL() {
-        return defaultURL;
+        return "https://onepiece.com";
     }
 
     public String getDefaultUsername() {
-        return defaultUsername;
+        return "PirateKing";
     }
 
     public String getDefaultPassword() {
-        return defaultPassword;
+        return "TheOnePiece@2025";
     }
 }

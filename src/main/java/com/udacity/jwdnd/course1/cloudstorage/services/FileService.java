@@ -4,9 +4,7 @@ import com.udacity.jwdnd.course1.cloudstorage.mappers.FileMapper;
 import com.udacity.jwdnd.course1.cloudstorage.models.File;
 import com.udacity.jwdnd.course1.cloudstorage.models.User;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,25 +17,16 @@ public class FileService {
         this.fileMapper = fileMapper;
     }
 
-    public ArrayList<String> getUserUploadedFileNames(User user, File file)
-    {
-        return null;
-    }
-
     public boolean fileSameNameExists(User user, String filename)
     {
         ArrayList<File> result = fileMapper.findUserFile(filename, user.getUserId());
 
-        if(result.isEmpty())
-            return false;
-
-        return true;
+        return !result.isEmpty();
     }
 
     public List<File> getAllFiles(Integer userId)
     {
-        List<File> results = fileMapper.findAllUserFiles(userId);
-        return results;
+        return fileMapper.findAllUserFiles(userId);
     }
     public File getFile(String username, Integer userId)
     {
@@ -48,9 +37,8 @@ public class FileService {
     {
         fileMapper.addUserFile(file);
         ArrayList<File> temp = fileMapper.displayAll();
-        for(int i=0; i<temp.size(); i++)
-        {
-            System.out.println(temp.get(i).getFileId().toString() + " - " + temp.get(i).getFileName() + " - " + temp.get(i).getFileId());
+        for (File value : temp) {
+            System.out.println(value.getFileId().toString() + " - " + value.getFileName() + " - " + value.getFileId());
         }
     }
 
